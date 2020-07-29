@@ -3,19 +3,28 @@ import mongoose from 'mongoose'
 const router = Router()
 mongoose.connect('mongodb://localhost:27017/bookings')
 
+const daysScheme = {
+  day: { type: Number },
+  isBooked: { type: Boolean },
+  bookedBy: { type: String },
+}
+
 const months = mongoose.model('months', {
-  january: { type: Array },
-  february: { type: Array },
-  march: { type: Array },
-  april: { type: Array },
-  may: { type: Array },
-  june: { type: Array },
-  july: { type: Array },
-  august: { type: Array },
-  september: { type: Array },
-  october: { type: Array },
-  november: { type: Array },
-  december: { type: Array },
+  month: { type: Number },
+  monthName: { type: String },
+  days: daysScheme,
+  // january: { type: Object },
+  // february: { type: Object },
+  // march: { type: Object },
+  // april: { type: Object },
+  // may: { type: Object },
+  // june: { type: Object },
+  // july: { type: Object },
+  // august: { type: Object },
+  // september: { type: Object },
+  // october: { type: Object },
+  // november: { type: Object },
+  // december: { type: Object },
 })
 
 router.get('/months', (req, res) => {
@@ -23,6 +32,8 @@ router.get('/months', (req, res) => {
     res.json(data)
   })
 })
+
+router.put('/months', (req, res) => {})
 
 const february = mongoose.model('february', {
   day: { type: Number },
