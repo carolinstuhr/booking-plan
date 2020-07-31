@@ -6,6 +6,7 @@ export default function App() {
   const [bookingData, setBookingData] = useState([])
   const [dataCurrentYear, setDataCurrentYear] = useState([])
   const [dataNextYear, setDataNextYear] = useState([])
+  const [IsBookingInProgress, setIsBookingInProgress] = useState(false)
 
   const today = new Date()
   const currentMonth = today.getMonth() + 1
@@ -18,7 +19,7 @@ export default function App() {
       .then((res) => res.json())
       .then((data) => setBookingData(data))
       .catch((error) => console.log('error', error))
-  }, [])
+  }, [IsBookingInProgress])
 
   useEffect(() => {
     for (let i = 0; i < 12; i++) {
@@ -72,6 +73,7 @@ export default function App() {
         dataCurrentYear={dataCurrentYear}
         dataNextYear={dataNextYear}
         currentYear={currentYear}
+        setIsBookingInProgress={setIsBookingInProgress}
       />
     </>
   )

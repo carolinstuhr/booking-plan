@@ -10,5 +10,11 @@ export default function Header() {
 }
 const HeaderStyled = styled.header`
   text-align: center;
+  background: #e0e4e8;
+  margin-top: 0;
 `
-const HeadlineStyled = styled.h1``
+const HeadlineStyled = styled.h1`
+  font-family: 'Merienda', cursive;
+  margin-top: 0;
+  padding: 8px;
+`

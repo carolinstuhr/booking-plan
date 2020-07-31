@@ -7,22 +7,24 @@ export default function CalendarPage({
   dataCurrentYear,
   dataNextYear,
   currentYear,
+  setIsBookingInProgress,
 }) {
   return (
-    <SectionStyled>
-      <p>{currentYear}</p>
+    <MainStyled>
+      <YearStyled>{currentYear}</YearStyled>
       {bookingData &&
         dataCurrentYear.map((month) => (
           <Calender month={month} bookFlat={bookFlat} />
         ))}
-      <p>{currentYear + 1}</p>
+      <YearStyled>{currentYear + 1}</YearStyled>
       {bookingData &&
         dataNextYear.map((month) => (
           <Calender month={month} bookFlat={bookFlat} />
         ))}
-    </SectionStyled>
+    </MainStyled>
   )
   function bookFlat(month, day) {
+    setIsBookingInProgress(true)
     const myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
 
@@ -41,10 +43,16 @@ export default function CalendarPage({
     fetch('http://localhost:8080/months', requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
+      .then(() => setIsBookingInProgress(false))
       .catch((error) => console.log('error', error))
   }
 }
 
-const SectionStyled = styled.section`
+const MainStyled = styled.main`
   text-align: center;
+`
+
+const YearStyled = styled.p`
+  font-weight: 500;
+  font-size: 22px;
 `

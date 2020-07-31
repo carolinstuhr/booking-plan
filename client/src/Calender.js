@@ -31,9 +31,10 @@ export default function Calender({ month, bookFlat }) {
   )
 }
 const DateStyled = styled.span`
-  background: ${(props) => (props.isBooked ? 'red' : 'green')};
+  background: ${(props) => (props.isBooked ? '#941523' : '#2c6225')};
   margin-left: 4px;
   padding: 4px;
+  color: #e0e4e8;
 `
 
 const CalenderSection = styled.section`
