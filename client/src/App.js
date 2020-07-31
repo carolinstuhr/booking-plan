@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CalendarPage from './CalendarPage'
+import Header from './Header'
 
 export default function App() {
   const [bookingData, setBookingData] = useState([])
@@ -65,7 +66,7 @@ export default function App() {
 
   return (
     <>
-      <header>Belegungsplan Sylt</header>
+      <Header />
       <CalendarPage
         bookingData={bookingData}
         dataCurrentYear={dataCurrentYear}

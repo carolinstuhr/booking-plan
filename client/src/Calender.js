@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-export default function Calender({ month }) {
+export default function Calender({ month, bookFlat }) {
   return (
     <>
       <p>{month.monthName}</p>
@@ -18,7 +18,12 @@ export default function Calender({ month }) {
         ))}
         {month.days.map((day) => (
           <>
-            <DateStyled isBooked={day.isBooked}>{day.day}</DateStyled>
+            <DateStyled
+              isBooked={day.isBooked}
+              onClick={() => bookFlat(month._id, day.day)}
+            >
+              {day.day}
+            </DateStyled>
           </>
         ))}
       </CalenderSection>
@@ -34,4 +39,5 @@ const DateStyled = styled.span`
 const CalenderSection = styled.section`
   display: grid;
   grid-template-columns: repeat(7, 30px);
+  justify-content: center;
 `
