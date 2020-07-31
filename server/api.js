@@ -3,12 +3,6 @@ import mongoose from 'mongoose'
 const router = Router()
 mongoose.connect('mongodb://localhost:27017/bookings')
 
-const daysScheme = [
-  { day: { type: Number } },
-  { isBooked: { type: Boolean } },
-  { bookedBy: { type: String } },
-]
-
 const months = mongoose.model('months', {
   month: { type: Number },
   monthName: { type: String },
@@ -52,29 +46,6 @@ router.patch('/months', (req, res) => {
         bookedBy: req.body.bookerName,
       })
     )
-})
-
-const february = mongoose.model('february', {
-  day: { type: Number },
-  isBooked: { type: Boolean },
-  bookedBy: { type: String },
-})
-
-router.post('/february', (req, res) => {
-  february
-    .create(req.body)
-    .then(() => {
-      res.json({ created: true })
-    })
-    .catch(() => response.json({ created: false }))
-})
-router.get('/februaryget', (req, res) => {
-  february
-    .find()
-    .then((data) => {
-      res.json(data)
-    })
-    .catch(() => response.json({ get: false }))
 })
 
 export default router
