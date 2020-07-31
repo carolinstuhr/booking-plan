@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components/macro'
+import CalendarPage from './CalendarPage'
 
 export default function App() {
   const [bookingData, setBookingData] = useState([])
@@ -7,7 +7,6 @@ export default function App() {
   const [dataNextYear, setDataNextYear] = useState([])
 
   const today = new Date()
-  const day = today.getDate()
   const currentMonth = today.getMonth() + 1
   const currentYear = today.getFullYear()
 
@@ -33,8 +32,6 @@ export default function App() {
       if (firstDay === -1) {
         firstDay = 6
       }
-      console.log('month', newMonth)
-      console.log('firstDay', firstDay)
       for (let i = 0; i < firstDay; i++) {
         amount.push('')
       }
@@ -66,71 +63,15 @@ export default function App() {
     )
   }, [bookingData])
 
-  console.log(dataNextYear)
-  console.log(dataCurrentYear)
-  console.log(currentMonth)
-
   return (
     <>
       <header>Belegungsplan Sylt</header>
-      <p>{currentYear}</p>
-      {bookingData &&
-        dataCurrentYear.map((month) => (
-          <>
-            <p>{month.monthName}</p>
-            <CalenderSection>
-              <span>Mo</span>
-              <span>Di</span>
-              <span>Mi</span>
-              <span>Do</span>
-              <span>Fr</span>
-              <span>Sa</span>
-              <span>So</span>
-              {month.emptyDays.amount.map((day) => (
-                <span>{day}</span>
-              ))}
-              {month.days.map((day) => (
-                <>
-                  <DateStyled isBooked={day.isBooked}>{day.day}</DateStyled>
-                </>
-              ))}
-            </CalenderSection>
-          </>
-        ))}
-      <p>{currentYear + 1}</p>
-      {bookingData &&
-        dataNextYear.map((month) => (
-          <>
-            <p>{month.monthName}</p>
-            <CalenderSection>
-              <span>Mo</span>
-              <span>Di</span>
-              <span>Mi</span>
-              <span>Do</span>
-              <span>Fr</span>
-              <span>Sa</span>
-              <span>So</span>
-              {month.emptyDays.amount.map((day) => (
-                <span>{day}</span>
-              ))}
-              {month.days.map((day) => (
-                <>
-                  <DateStyled isBooked={day.isBooked}>{day.day}</DateStyled>
-                </>
-              ))}
-            </CalenderSection>
-          </>
-        ))}
+      <CalendarPage
+        bookingData={bookingData}
+        dataCurrentYear={dataCurrentYear}
+        dataNextYear={dataNextYear}
+        currentYear={currentYear}
+      />
     </>
   )
 }
-const DateStyled = styled.span`
-  background: ${(props) => (props.isBooked ? 'red' : 'green')};
-  margin-left: 4px;
-  padding: 4px;
-`
-
-const CalenderSection = styled.section`
-  display: grid;
-  grid-template-columns: repeat(7, 30px);
-`
