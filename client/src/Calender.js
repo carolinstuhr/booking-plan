@@ -20,7 +20,7 @@ export default function Calender({ month, bookFlat }) {
           <>
             <DateStyled
               isBooked={day.isBooked}
-              onClick={() => bookFlat(month._id, day.day)}
+              onClick={() => bookFlat(month._id, day)}
             >
               {day.day}
             </DateStyled>
@@ -38,7 +38,8 @@ const DateStyled = styled.span`
 `
 
 const CalenderSection = styled.section`
-  display: grid;
+  display: inline-grid;
   grid-template-columns: repeat(7, 30px);
   justify-content: center;
+  border: 1px solid #032b45;
 `

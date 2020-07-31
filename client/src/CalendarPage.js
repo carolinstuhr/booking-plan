@@ -24,13 +24,16 @@ export default function CalendarPage({
     </MainStyled>
   )
   function bookFlat(month, day) {
+    if (day.isBooked) {
+      alert('Tag ist bereits gebucht')
+    }
     setIsBookingInProgress(true)
     const myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
 
     const urlencoded = new URLSearchParams()
     urlencoded.append('monthId', month)
-    urlencoded.append('day', day)
+    urlencoded.append('day', day.day)
     urlencoded.append('bookerName', 'Caro')
 
     const requestOptions = {
