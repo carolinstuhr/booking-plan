@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 import Calender from './Calender'
+import BookingWindow from './BookingWindow'
 
 export default function CalendarPage({
   bookingData,
@@ -9,17 +10,31 @@ export default function CalendarPage({
   currentYear,
   setIsBookingInProgress,
 }) {
+  const [isBookingWindowOpen, setIsBookingWindowOpen] = useState(true)
   return (
     <MainStyled>
+      <BookingWindow
+        isBookingWindowOpen={isBookingWindowOpen}
+        dataCurrentYear={dataCurrentYear}
+        dataNextYear={dataNextYear}
+      />
       <YearStyled>{currentYear}</YearStyled>
       {bookingData &&
         dataCurrentYear.map((month) => (
-          <Calender month={month} bookFlat={bookFlat} />
+          <Calender
+            month={month}
+            bookFlat={bookFlat}
+            setIsBookingWindowOpen={setIsBookingWindowOpen}
+          />
         ))}
       <YearStyled>{currentYear + 1}</YearStyled>
       {bookingData &&
         dataNextYear.map((month) => (
-          <Calender month={month} bookFlat={bookFlat} />
+          <Calender
+            month={month}
+            bookFlat={bookFlat}
+            setIsBookingWindowOpen={setIsBookingWindowOpen}
+          />
         ))}
     </MainStyled>
   )
