@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-export default function Calender({ month, bookFlat, setIsBookingWindowOpen }) {
+export default function Calender({ month, openBookingWindow }) {
   const weekdays = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 
   return (
@@ -21,7 +21,7 @@ export default function Calender({ month, bookFlat, setIsBookingWindowOpen }) {
             <>
               <DateStyled
                 isBooked={day.isBooked}
-                onClick={() => setIsBookingWindowOpen(true)}
+                onClick={() => openBookingWindow(day, month)}
               >
                 {day.day}
               </DateStyled>

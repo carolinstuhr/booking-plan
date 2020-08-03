@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import Calender from './Calender'
 import BookingWindow from './BookingWindow'
@@ -10,34 +10,48 @@ export default function CalendarPage({
   currentYear,
   setIsBookingInProgress,
 }) {
-  const [isBookingWindowOpen, setIsBookingWindowOpen] = useState(true)
+  const [isBookingWindowOpen, setIsBookingWindowOpen] = useState(false)
+  const [selectedStartMonth, setSelectedStartMonth] = useState()
+  const [selectedStartDay, setSelectedStartDay] = useState()
+
   return (
     <MainStyled>
       <BookingWindow
         isBookingWindowOpen={isBookingWindowOpen}
         dataCurrentYear={dataCurrentYear}
         dataNextYear={dataNextYear}
+        selectedStartMonth={selectedStartMonth}
+        setSelectedStartMonth={setSelectedStartMonth}
+        selectedStartDay={selectedStartDay}
+        setSelectedStartDay={setSelectedStartDay}
+        setStartMonth={setStartMonth}
       />
       <YearStyled>{currentYear}</YearStyled>
       {bookingData &&
         dataCurrentYear.map((month) => (
-          <Calender
-            month={month}
-            bookFlat={bookFlat}
-            setIsBookingWindowOpen={setIsBookingWindowOpen}
-          />
+          <Calender month={month} openBookingWindow={openBookingWindow} />
         ))}
       <YearStyled>{currentYear + 1}</YearStyled>
       {bookingData &&
         dataNextYear.map((month) => (
-          <Calender
-            month={month}
-            bookFlat={bookFlat}
-            setIsBookingWindowOpen={setIsBookingWindowOpen}
-          />
+          <Calender month={month} openBookingWindow={openBookingWindow} />
         ))}
     </MainStyled>
   )
+  function setStartMonth(month) {
+    let selectedMonth = month
+    setSelectedStartMonth(
+      dataCurrentYear.find((month) => month.month == selectedMonth) ||
+        dataNextYear.find((month) => month.month == selectedMonth)
+    )
+  }
+
+  function openBookingWindow(day, month) {
+    setIsBookingWindowOpen(true)
+    setStartMonth(month.month)
+    setSelectedStartDay(day)
+  }
+
   function bookFlat(month, day) {
     if (day.isBooked) {
       alert('Tag ist bereits gebucht')
