@@ -4,11 +4,11 @@ import Calender from './Calender'
 import BookingWindow from './BookingWindow'
 
 export default function CalendarPage({
-  bookingData,
   dataCurrentYear,
   dataNextYear,
   currentYear,
   setIsBookingInProgress,
+  bookingData,
 }) {
   const [isBookingWindowOpen, setIsBookingWindowOpen] = useState(false)
   const [selectedStartMonth, setSelectedStartMonth] = useState()
@@ -18,38 +18,44 @@ export default function CalendarPage({
     <MainStyled>
       <BookingWindow
         isBookingWindowOpen={isBookingWindowOpen}
-        dataCurrentYear={dataCurrentYear}
-        dataNextYear={dataNextYear}
+        // dataCurrentYear={dataCurrentYear}
+        // dataNextYear={dataNextYear}
         selectedStartMonth={selectedStartMonth}
         setSelectedStartMonth={setSelectedStartMonth}
         selectedStartDay={selectedStartDay}
         setSelectedStartDay={setSelectedStartDay}
         setStartMonth={setStartMonth}
+        bookingData={bookingData}
       />
       <YearStyled>{currentYear}</YearStyled>
       {bookingData &&
-        dataCurrentYear.map((month) => (
+        bookingData.map((month) => (
           <Calender month={month} openBookingWindow={openBookingWindow} />
         ))}
       <YearStyled>{currentYear + 1}</YearStyled>
-      {bookingData &&
+      {/* {dataNextYear &&
         dataNextYear.map((month) => (
           <Calender month={month} openBookingWindow={openBookingWindow} />
-        ))}
+        ))} */}
     </MainStyled>
   )
   function setStartMonth(month) {
     let selectedMonth = month
     setSelectedStartMonth(
-      dataCurrentYear.find((month) => month.month == selectedMonth) ||
-        dataNextYear.find((month) => month.month == selectedMonth)
+      bookingData.find((month) => month.month == selectedMonth)
+      // ||
+      //   dataNextYear.find((month) => month.month == selectedMonth)
     )
   }
 
   function openBookingWindow(day, month) {
-    setIsBookingWindowOpen(true)
-    setStartMonth(month.month)
-    setSelectedStartDay(day)
+    if (day.isBooked) {
+      alert('Tag is bereits gebucht.')
+    } else {
+      setIsBookingWindowOpen(true)
+      setStartMonth(month.month)
+      setSelectedStartDay(day)
+    }
   }
 
   function bookFlat(month, day) {

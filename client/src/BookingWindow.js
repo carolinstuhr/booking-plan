@@ -9,6 +9,7 @@ export default function BookingWindow({
   selectedStartDay,
   setSelectedStartDay,
   setStartMonth,
+  bookingData,
 }) {
   console.log(selectedStartMonth)
   console.log(selectedStartDay)
@@ -24,16 +25,16 @@ export default function BookingWindow({
             onChange={(event) => selectStartMonth(event.target.value)}
             value={selectedStartMonth.month}
           >
-            {dataCurrentYear.map((month) => (
+            {bookingData.map((month) => (
               <>
                 <option value={month.month}>{month.monthName}</option>
               </>
             ))}
-            {dataNextYear.map((month) => (
+            {/* {dataNextYear.map((month) => (
               <>
                 <option value={month.month}>{month.monthName}</option>
               </>
-            ))}
+            ))} */}
           </select>
           {selectedStartMonth && (
             <select
@@ -49,18 +50,23 @@ export default function BookingWindow({
             </select>
           )}
 
-          <label htmlFor="ende">Ende</label>
+          <label htmlFor="end">Ende</label>
+          <select name="" id="end">
+            <option value=""></option>
+          </select>
         </>
       )}
     </>
   )
   function setStartDay(day) {
+    let oldDay = selectedStartDay
     let selectedDay = day
     setSelectedStartDay(
       selectedStartMonth.days.find((day) => day.day == selectedDay)
     )
     if (selectedStartDay.isBooked) {
       alert('Tag is bereits gebucht.')
+      setSelectedStartDay(oldDay)
     }
   }
   function selectStartMonth(month) {
