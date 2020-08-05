@@ -13,6 +13,72 @@ export default function CalendarPage({
   const [isBookingWindowOpen, setIsBookingWindowOpen] = useState(false)
   const [selectedStartMonth, setSelectedStartMonth] = useState()
   const [selectedStartDay, setSelectedStartDay] = useState()
+  const [bookingPeriod, setBookingPeriod] = useState([])
+  const [firstBookedMonth, setFirstBookedMonth] = useState()
+  const [bookingDataChanged, setoBokingDataChanged] = useState(false)
+  const [firstBookedDay, setFirstBookedDay] = useState()
+
+  useEffect(() => {
+    setoBokingDataChanged(false)
+    setBookingPeriod(
+      bookingData
+        .filter((month) => month.year >= selectedStartMonth.year)
+        .filter((month) =>
+          month.year > selectedStartMonth.year
+            ? month
+            : month.month >= selectedStartMonth.month
+        )
+        .map((month) =>
+          month.month === selectedStartMonth.month
+            ? {
+                ...month,
+                days: month.days.filter(
+                  (day) => day.day > selectedStartDay.day
+                ),
+              }
+            : month
+        )
+    )
+    setTimeout(() => setoBokingDataChanged(true), 0)
+  }, [selectedStartDay])
+
+  useEffect(() => {
+    setFirstBookedMonth(
+      bookingPeriod.find((month) => month.days.find((day) => day.isBooked))
+    )
+  }, [bookingDataChanged])
+
+  useEffect(() => {
+    firstBookedMonth &&
+      setFirstBookedDay(firstBookedMonth.days.find((day) => day.isBooked))
+  }, [firstBookedMonth])
+  console.log('firstBookedMonth', firstBookedMonth)
+  console.log('bookingDataChanged', bookingDataChanged)
+  console.log('firstBookedDay', firstBookedDay)
+
+  useEffect(() => {
+    if (firstBookedMonth) {
+      setBookingPeriod(
+        bookingPeriod
+          .filter((month) => month.year <= firstBookedMonth.year)
+          .filter((month) =>
+            month.year < firstBookedMonth.year
+              ? month
+              : month.month <= firstBookedMonth.month
+          )
+          .map((month) =>
+            month.month === firstBookedMonth.month
+              ? {
+                  ...month,
+                  days: month.days.filter(
+                    (day) => day.day < firstBookedDay.day
+                  ),
+                }
+              : month
+          )
+      )
+    }
+  }, [firstBookedDay])
 
   return (
     <MainStyled>
@@ -26,6 +92,7 @@ export default function CalendarPage({
         setSelectedStartDay={setSelectedStartDay}
         setStartMonth={setStartMonth}
         bookingData={bookingData}
+        bookingPeriod={bookingPeriod}
       />
       <YearStyled>{currentYear}</YearStyled>
       {bookingData &&

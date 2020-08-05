@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react'
 
 export default function BookingWindow({
   isBookingWindowOpen,
@@ -10,9 +11,12 @@ export default function BookingWindow({
   setSelectedStartDay,
   setStartMonth,
   bookingData,
+  bookingPeriod,
+  setBookingPeriod,
 }) {
-  console.log(selectedStartMonth)
-  console.log(selectedStartDay)
+  console.log('selectedStartMonth', selectedStartMonth)
+  console.log('selectedStartDay', selectedStartDay)
+  console.log('bookingPeriod', bookingPeriod)
 
   return (
     <>
@@ -61,13 +65,25 @@ export default function BookingWindow({
   function setStartDay(day) {
     let oldDay = selectedStartDay
     let selectedDay = day
-    setSelectedStartDay(
-      selectedStartMonth.days.find((day) => day.day == selectedDay)
-    )
-    if (selectedStartDay.isBooked) {
+    if (selectedStartMonth.days.find((day) => day.day == selectedDay)) {
       alert('Tag is bereits gebucht.')
-      setSelectedStartDay(oldDay)
+    } else {
+      setSelectedStartDay(
+        selectedStartMonth.days.find((day) => day.day == selectedDay)
+      )
     }
+    // setBookingPeriod(
+    //   bookingData
+    //     .filter((month) => month.month >= selectedStartMonth.month)
+    //     .map((month) =>
+    //       month.month === selectedStartMonth.month
+    //         ? {
+    //             ...month,
+    //             days: month.days.filter((day) => day.day > selectedDay),
+    //           }
+    //         : month
+    //     )
+    // )
   }
   function selectStartMonth(month) {
     setStartMonth(month)
