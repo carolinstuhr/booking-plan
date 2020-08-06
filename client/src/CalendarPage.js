@@ -13,14 +13,15 @@ export default function CalendarPage({
   const [selectedStartDay, setSelectedStartDay] = useState()
   const [selectedEndMonth, setSelectedEndMonth] = useState()
   const [selectedEndDay, setSelectedEndDay] = useState()
-  const [bookingPeriod, setBookingPeriod] = useState([])
+  const [possibleBookingPeriod, setPossibleBookingPeriod] = useState([])
   const [firstBookedMonth, setFirstBookedMonth] = useState()
   const [bookingDataChanged, setoBokingDataChanged] = useState(false)
   const [firstBookedDay, setFirstBookedDay] = useState()
+  const [bookingPeriod, setBookingPeriod] = useState([])
 
   useEffect(() => {
     setoBokingDataChanged(false)
-    setBookingPeriod(
+    setPossibleBookingPeriod(
       bookingData
         .filter((month) => month.year >= selectedStartMonth.year)
         .filter((month) =>
@@ -33,7 +34,7 @@ export default function CalendarPage({
             ? {
                 ...month,
                 days: month.days.filter(
-                  (day) => day.day > selectedStartDay.day
+                  (day) => day.day >= selectedStartDay.day
                 ),
               }
             : month
@@ -44,7 +45,9 @@ export default function CalendarPage({
 
   useEffect(() => {
     setFirstBookedMonth(
-      bookingPeriod.find((month) => month.days.find((day) => day.isBooked))
+      possibleBookingPeriod.find((month) =>
+        month.days.find((day) => day.isBooked)
+      )
     )
   }, [bookingDataChanged])
 
@@ -52,16 +55,11 @@ export default function CalendarPage({
     firstBookedMonth &&
       setFirstBookedDay(firstBookedMonth.days.find((day) => day.isBooked))
   }, [firstBookedMonth])
-  console.log('firstBookedMonth', firstBookedMonth)
-  console.log('bookingDataChanged', bookingDataChanged)
-  console.log('firstBookedDay', firstBookedDay)
-  console.log('selectedEndDay', selectedEndDay)
-  console.log('selectedEndMonth', selectedEndMonth)
 
   useEffect(() => {
     if (firstBookedMonth) {
-      setBookingPeriod(
-        bookingPeriod
+      setPossibleBookingPeriod(
+        possibleBookingPeriod
           .filter((month) => month.year <= firstBookedMonth.year)
           .filter((month) =>
             month.year < firstBookedMonth.year
@@ -84,9 +82,36 @@ export default function CalendarPage({
 
   useEffect(() => {
     setSelectedEndMonth(
-      bookingPeriod.find((month) => month.month == selectedStartMonth.month)
+      possibleBookingPeriod.find(
+        (month) => month.month == selectedStartMonth.month
+      )
     )
-  }, [bookingPeriod])
+  }, [possibleBookingPeriod])
+
+  useEffect(() => {
+    selectedEndMonth &&
+      setBookingPeriod(
+        possibleBookingPeriod
+          .filter((month) =>
+            month.year < selectedEndMonth.year
+              ? month
+              : month.month <= selectedEndMonth.month
+          )
+          .map((month) =>
+            month.month == selectedEndMonth.month
+              ? {
+                  ...month,
+                  days: month.days.filter(
+                    (day) => day.day <= selectedEndDay.day
+                  ),
+                }
+              : month
+          )
+      )
+  }, [possibleBookingPeriod, selectedEndMonth, selectedEndDay])
+
+  console.log('bookingPeriod', bookingPeriod)
+  console.log('possibleBookingPeriod', possibleBookingPeriod)
 
   return (
     <MainStyled>
@@ -97,11 +122,12 @@ export default function CalendarPage({
         setSelectedStartDay={setSelectedStartDay}
         setStartMonth={setStartMonth}
         bookingData={bookingData}
-        bookingPeriod={bookingPeriod}
+        possibleBookingPeriod={possibleBookingPeriod}
         selectedEndMonth={selectedEndMonth}
         setSelectedEndMonth={setSelectedEndMonth}
         selectedEndDay={selectedEndDay}
         setSelectedEndDay={setSelectedEndDay}
+        bookFlat={bookFlat}
       />
       <YearStyled>{currentYear}</YearStyled>
       {bookingData &&
@@ -129,16 +155,24 @@ export default function CalendarPage({
     }
   }
 
-  function bookFlat(month, day) {
-    if (day.isBooked) {
-      alert('Tag ist bereits gebucht')
-    }
+  function bookFlat() {
+    bookingPeriod.forEach((month) =>
+      month.days.forEach((day) => {
+        sendAPIRequest(month, day)
+      })
+    )
+    setIsBookingWindowOpen(false)
+  }
+
+  function sendAPIRequest(month, day) {
     setIsBookingInProgress(true)
+    console.log(month._id)
+    console.log(day.day)
     const myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
 
     const urlencoded = new URLSearchParams()
-    urlencoded.append('monthId', month)
+    urlencoded.append('monthId', month._id)
     urlencoded.append('day', day.day)
     urlencoded.append('bookerName', 'Caro')
 
@@ -148,12 +182,19 @@ export default function CalendarPage({
       body: urlencoded,
       redirect: 'follow',
     }
-
-    fetch('http://localhost:8080/months', requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .then(() => setIsBookingInProgress(false))
-      .catch((error) => console.log('error', error))
+    if (month.year === currentYear) {
+      fetch('http://localhost:8080/currentyear', requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .then(() => setIsBookingInProgress(false))
+        .catch((error) => console.log('error', error))
+    } else {
+      fetch('http://localhost:8080/nextyear', requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .then(() => setIsBookingInProgress(false))
+        .catch((error) => console.log('error', error))
+    }
   }
 }
 

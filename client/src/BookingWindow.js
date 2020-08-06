@@ -8,16 +8,13 @@ export default function BookingWindow({
   setSelectedStartDay,
   setStartMonth,
   bookingData,
-  bookingPeriod,
+  possibleBookingPeriod,
   selectedEndMonth,
   setSelectedEndMonth,
   selectedEndDay,
   setSelectedEndDay,
+  bookFlat,
 }) {
-  console.log('selectedStartMonth', selectedStartMonth)
-  console.log('selectedStartDay', selectedStartDay)
-  console.log('bookingPeriod', bookingPeriod)
-
   return (
     <>
       {isBookingWindowOpen && (
@@ -55,11 +52,13 @@ export default function BookingWindow({
             id="end"
             onChange={(event) =>
               setSelectedEndMonth(
-                bookingPeriod.find((month) => month.month == event.target.value)
+                possibleBookingPeriod.find(
+                  (month) => month.month == event.target.value
+                )
               )
             }
           >
-            {bookingPeriod.map((month) => (
+            {possibleBookingPeriod.map((month) => (
               <option value={month.month}>{month.monthName}</option>
             ))}
           </select>
@@ -82,6 +81,7 @@ export default function BookingWindow({
               ))}
             </select>
           )}
+          <button onClick={bookFlat}>Buchen</button>
         </>
       )}
     </>
