@@ -4,8 +4,6 @@ import Calender from './Calender'
 import BookingWindow from './BookingWindow'
 
 export default function CalendarPage({
-  dataCurrentYear,
-  dataNextYear,
   currentYear,
   setIsBookingInProgress,
   bookingData,
@@ -13,6 +11,8 @@ export default function CalendarPage({
   const [isBookingWindowOpen, setIsBookingWindowOpen] = useState(false)
   const [selectedStartMonth, setSelectedStartMonth] = useState()
   const [selectedStartDay, setSelectedStartDay] = useState()
+  const [selectedEndMonth, setSelectedEndMonth] = useState()
+  const [selectedEndDay, setSelectedEndDay] = useState()
   const [bookingPeriod, setBookingPeriod] = useState([])
   const [firstBookedMonth, setFirstBookedMonth] = useState()
   const [bookingDataChanged, setoBokingDataChanged] = useState(false)
@@ -55,6 +55,8 @@ export default function CalendarPage({
   console.log('firstBookedMonth', firstBookedMonth)
   console.log('bookingDataChanged', bookingDataChanged)
   console.log('firstBookedDay', firstBookedDay)
+  console.log('selectedEndDay', selectedEndDay)
+  console.log('selectedEndMonth', selectedEndMonth)
 
   useEffect(() => {
     if (firstBookedMonth) {
@@ -80,19 +82,26 @@ export default function CalendarPage({
     }
   }, [firstBookedDay])
 
+  useEffect(() => {
+    setSelectedEndMonth(
+      bookingPeriod.find((month) => month.month == selectedStartMonth.month)
+    )
+  }, [bookingPeriod])
+
   return (
     <MainStyled>
       <BookingWindow
         isBookingWindowOpen={isBookingWindowOpen}
-        // dataCurrentYear={dataCurrentYear}
-        // dataNextYear={dataNextYear}
         selectedStartMonth={selectedStartMonth}
-        setSelectedStartMonth={setSelectedStartMonth}
         selectedStartDay={selectedStartDay}
         setSelectedStartDay={setSelectedStartDay}
         setStartMonth={setStartMonth}
         bookingData={bookingData}
         bookingPeriod={bookingPeriod}
+        selectedEndMonth={selectedEndMonth}
+        setSelectedEndMonth={setSelectedEndMonth}
+        selectedEndDay={selectedEndDay}
+        setSelectedEndDay={setSelectedEndDay}
       />
       <YearStyled>{currentYear}</YearStyled>
       {bookingData &&
@@ -100,18 +109,12 @@ export default function CalendarPage({
           <Calender month={month} openBookingWindow={openBookingWindow} />
         ))}
       <YearStyled>{currentYear + 1}</YearStyled>
-      {/* {dataNextYear &&
-        dataNextYear.map((month) => (
-          <Calender month={month} openBookingWindow={openBookingWindow} />
-        ))} */}
     </MainStyled>
   )
   function setStartMonth(month) {
     let selectedMonth = month
     setSelectedStartMonth(
       bookingData.find((month) => month.month == selectedMonth)
-      // ||
-      //   dataNextYear.find((month) => month.month == selectedMonth)
     )
   }
 
@@ -122,6 +125,7 @@ export default function CalendarPage({
       setIsBookingWindowOpen(true)
       setStartMonth(month.month)
       setSelectedStartDay(day)
+      setSelectedEndDay('')
     }
   }
 

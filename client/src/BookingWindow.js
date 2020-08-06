@@ -3,16 +3,16 @@ import { useState } from 'react'
 
 export default function BookingWindow({
   isBookingWindowOpen,
-  dataCurrentYear,
-  dataNextYear,
-  setSelectedStartMonth,
   selectedStartMonth,
   selectedStartDay,
   setSelectedStartDay,
   setStartMonth,
   bookingData,
   bookingPeriod,
-  setBookingPeriod,
+  selectedEndMonth,
+  setSelectedEndMonth,
+  selectedEndDay,
+  setSelectedEndDay,
 }) {
   console.log('selectedStartMonth', selectedStartMonth)
   console.log('selectedStartDay', selectedStartDay)
@@ -34,11 +34,6 @@ export default function BookingWindow({
                 <option value={month.month}>{month.monthName}</option>
               </>
             ))}
-            {/* {dataNextYear.map((month) => (
-              <>
-                <option value={month.month}>{month.monthName}</option>
-              </>
-            ))} */}
           </select>
           {selectedStartMonth && (
             <select
@@ -55,15 +50,43 @@ export default function BookingWindow({
           )}
 
           <label htmlFor="end">Ende</label>
-          <select name="" id="end">
-            <option value=""></option>
+          <select
+            name=""
+            id="end"
+            onChange={(event) =>
+              setSelectedEndMonth(
+                bookingPeriod.find((month) => month.month == event.target.value)
+              )
+            }
+          >
+            {bookingPeriod.map((month) => (
+              <option value={month.month}>{month.monthName}</option>
+            ))}
           </select>
+          {selectedEndMonth && (
+            <select
+              name=""
+              id=""
+              value={selectedEndDay.day}
+              onChange={(event) =>
+                setSelectedEndDay(
+                  selectedEndMonth.days.find(
+                    (day) => day.day == event.target.value
+                  )
+                )
+              }
+            >
+              <option value=""></option>
+              {selectedEndMonth.days.map((day) => (
+                <option value={day.day}>{day.day}</option>
+              ))}
+            </select>
+          )}
         </>
       )}
     </>
   )
   function setStartDay(day) {
-    let oldDay = selectedStartDay
     let selectedDay = day
     if (selectedStartMonth.days.find((day) => day.day == selectedDay)) {
       alert('Tag is bereits gebucht.')
@@ -72,18 +95,6 @@ export default function BookingWindow({
         selectedStartMonth.days.find((day) => day.day == selectedDay)
       )
     }
-    // setBookingPeriod(
-    //   bookingData
-    //     .filter((month) => month.month >= selectedStartMonth.month)
-    //     .map((month) =>
-    //       month.month === selectedStartMonth.month
-    //         ? {
-    //             ...month,
-    //             days: month.days.filter((day) => day.day > selectedDay),
-    //           }
-    //         : month
-    //     )
-    // )
   }
   function selectStartMonth(month) {
     setStartMonth(month)
