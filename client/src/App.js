@@ -95,7 +95,6 @@ export default function App() {
         currentYear={currentYear}
         setIsBookingInProgress={setIsBookingInProgress}
         bookingData={bookingData}
-        currentYear={currentYear}
       />
     </>
   )

@@ -30,7 +30,9 @@ export default function BookingWindow({
               {bookingData.map((month) => (
                 <>
                   <option value={month.month}>
-                    {month.monthName} {month.year}
+                    {month.monthName.charAt(0).toUpperCase() +
+                      month.monthName.slice(1)}{' '}
+                    {month.year}
                   </option>
                 </>
               ))}
@@ -64,7 +66,9 @@ export default function BookingWindow({
             >
               {possibleBookingPeriod.map((month) => (
                 <option value={month.month}>
-                  {month.monthName} {month.year}
+                  {month.monthName.charAt(0).toUpperCase() +
+                    month.monthName.slice(1)}{' '}
+                  {month.year}
                 </option>
               ))}
             </select>
