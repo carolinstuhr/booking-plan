@@ -19,7 +19,7 @@ export default function ConfirmationWinow({
             {bookingPeriod[0].monthName} {bookingPeriod[0].year} bis zum{' '}
             {
               bookingPeriod[bookingPeriod.length - 1].days[
-                bookingPeriod[0].days.length - 1
+                bookingPeriod[bookingPeriod.length - 1].days.length - 1
               ].day
             }
             {'. '}

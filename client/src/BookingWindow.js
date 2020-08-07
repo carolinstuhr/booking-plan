@@ -27,9 +27,9 @@ export default function BookingWindow({
               onChange={(event) => selectStartMonth(event.target.value)}
               value={selectedStartMonth.month}
             >
-              {bookingData.map((month) => (
+              {bookingData.map((month, index) => (
                 <>
-                  <option value={month.month}>
+                  <option value={month.month} key={index}>
                     {month.monthName.charAt(0).toUpperCase() +
                       month.monthName.slice(1)}{' '}
                     {month.year}
@@ -45,8 +45,10 @@ export default function BookingWindow({
                 value={selectedStartDay.day}
               >
                 <option value=""></option>
-                {selectedStartMonth.days.map((day) => (
-                  <option value={day.day}>{day.day}</option>
+                {selectedStartMonth.days.map((day, index) => (
+                  <option value={day.day} key={index}>
+                    {day.day}
+                  </option>
                 ))}
               </select>
             )}
@@ -64,8 +66,8 @@ export default function BookingWindow({
                 )
               }
             >
-              {possibleBookingPeriod.map((month) => (
-                <option value={month.month}>
+              {possibleBookingPeriod.map((month, index) => (
+                <option value={month.month} key={index}>
                   {month.monthName.charAt(0).toUpperCase() +
                     month.monthName.slice(1)}{' '}
                   {month.year}
@@ -86,8 +88,10 @@ export default function BookingWindow({
                 }
               >
                 <option value=""></option>
-                {selectedEndMonth.days.map((day) => (
-                  <option value={day.day}>{day.day}</option>
+                {selectedEndMonth.days.map((day, index) => (
+                  <option value={day.day} key={index}>
+                    {day.day}
+                  </option>
                 ))}
               </select>
             )}

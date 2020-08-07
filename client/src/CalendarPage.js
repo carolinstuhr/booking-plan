@@ -113,7 +113,7 @@ export default function CalendarPage({
           )
       )
   }, [possibleBookingPeriod, selectedEndMonth, selectedEndDay])
-  console.log('bookingPeriod', bookingPeriod)
+
   return (
     <MainStyled>
       <BookingWindow
@@ -141,7 +141,7 @@ export default function CalendarPage({
       >
         <YearStyled>{currentYear}</YearStyled>
         {bookingData &&
-          bookingData.map((month) => (
+          bookingData.map((month, index) => (
             <>
               {month.month === 1 && bookingData[0].month !== 1 ? (
                 <YearStyled>{currentYear + 1}</YearStyled>
@@ -152,6 +152,7 @@ export default function CalendarPage({
                 month={month}
                 openBookingWindow={openBookingWindow}
                 currentYear={currentYear}
+                key={index}
               />
             </>
           ))}
