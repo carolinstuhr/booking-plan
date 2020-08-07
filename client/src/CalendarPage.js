@@ -110,8 +110,7 @@ export default function CalendarPage({
       )
   }, [possibleBookingPeriod, selectedEndMonth, selectedEndDay])
 
-  console.log('bookingPeriod', bookingPeriod)
-  console.log('possibleBookingPeriod', possibleBookingPeriod)
+  console.log('isBookingWindowOpen', isBookingWindowOpen)
 
   return (
     <MainStyled>
@@ -129,12 +128,22 @@ export default function CalendarPage({
         setSelectedEndDay={setSelectedEndDay}
         bookFlat={bookFlat}
       />
-      <YearStyled>{currentYear}</YearStyled>
-      {bookingData &&
-        bookingData.map((month) => (
-          <Calender month={month} openBookingWindow={openBookingWindow} />
-        ))}
-      <YearStyled>{currentYear + 1}</YearStyled>
+      <CalenderSection isBookingWindowOpen={isBookingWindowOpen}>
+        {bookingData &&
+          bookingData.map((month) =>
+            month.year === currentYear ? (
+              <>
+                <YearStyled>{currentYear}</YearStyled>
+                <Calender month={month} openBookingWindow={openBookingWindow} />
+              </>
+            ) : (
+              <>
+                <YearStyled>{currentYear + 1}</YearStyled>
+                <Calender month={month} openBookingWindow={openBookingWindow} />
+              </>
+            )
+          )}
+      </CalenderSection>
     </MainStyled>
   )
   function setStartMonth(month) {
@@ -200,6 +209,9 @@ export default function CalendarPage({
 
 const MainStyled = styled.main`
   text-align: center;
+`
+const CalenderSection = styled.section`
+  opacity: ${(props) => (props.isBookingWindowOpen ? 0.3 : 1)};
 `
 
 const YearStyled = styled.p`
