@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import Calender from './Calender'
 import BookingWindow from './BookingWindow'
+import ConfirmationWindow from './ConfirmationWinow'
 
 export default function CalendarPage({
   currentYear,
@@ -9,6 +10,9 @@ export default function CalendarPage({
   bookingData,
 }) {
   const [isBookingWindowOpen, setIsBookingWindowOpen] = useState(false)
+  const [isConfirmationWindowOpen, setIsConfirmationWindowOpen] = useState(
+    false
+  )
   const [selectedStartMonth, setSelectedStartMonth] = useState()
   const [selectedStartDay, setSelectedStartDay] = useState()
   const [selectedEndMonth, setSelectedEndMonth] = useState()
@@ -110,8 +114,6 @@ export default function CalendarPage({
       )
   }, [possibleBookingPeriod, selectedEndMonth, selectedEndDay])
 
-  console.log('isBookingWindowOpen', isBookingWindowOpen)
-
   return (
     <MainStyled>
       <BookingWindow
@@ -128,21 +130,32 @@ export default function CalendarPage({
         setSelectedEndDay={setSelectedEndDay}
         bookFlat={bookFlat}
       />
-      <CalenderSection isBookingWindowOpen={isBookingWindowOpen}>
+      <ConfirmationWindow
+        isConfirmationWindowOpen={isConfirmationWindowOpen}
+        bookingPeriod={bookingPeriod}
+        setIsConfirmationWindowOpen={setIsConfirmationWindowOpen}
+      />
+      <CalenderSection
+        isBookingWindowOpen={isBookingWindowOpen}
+        isConfirmationWindowOpen={isConfirmationWindowOpen}
+      >
+        <YearStyled>{currentYear}</YearStyled>
         {bookingData &&
-          bookingData.map((month) =>
-            month.year === currentYear ? (
-              <>
-                <YearStyled>{currentYear}</YearStyled>
-                <Calender month={month} openBookingWindow={openBookingWindow} />
-              </>
-            ) : (
-              <>
+          bookingData.map((month, index) => (
+            <>
+              {month.month === 1 && bookingData[0].month !== 1 ? (
                 <YearStyled>{currentYear + 1}</YearStyled>
-                <Calender month={month} openBookingWindow={openBookingWindow} />
-              </>
-            )
-          )}
+              ) : (
+                ''
+              )}
+              <Calender
+                month={month}
+                openBookingWindow={openBookingWindow}
+                currentYear={currentYear}
+                key={index}
+              />
+            </>
+          ))}
       </CalenderSection>
     </MainStyled>
   )
@@ -171,6 +184,7 @@ export default function CalendarPage({
       })
     )
     setIsBookingWindowOpen(false)
+    setIsConfirmationWindowOpen(true)
   }
 
   function sendAPIRequest(month, day) {
@@ -211,7 +225,8 @@ const MainStyled = styled.main`
   text-align: center;
 `
 const CalenderSection = styled.section`
-  opacity: ${(props) => (props.isBookingWindowOpen ? 0.3 : 1)};
+  opacity: ${(props) =>
+    props.isBookingWindowOpen || props.isConfirmationWindowOpen ? 0.3 : 1};
 `
 
 const YearStyled = styled.p`

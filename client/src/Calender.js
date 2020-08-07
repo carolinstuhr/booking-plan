@@ -1,12 +1,18 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import { GiSeahorse } from 'react-icons/gi'
 
 export default function Calender({ month, openBookingWindow }) {
   const weekdays = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 
   return (
     <>
-      <p>{month.monthName}</p>
+      <MonthStyled>
+        <SeahorseStyled />
+        <p>
+          {month.monthName.charAt(0).toUpperCase() + month.monthName.slice(1)}
+        </p>
+      </MonthStyled>
       <CalenderSection>
         <WeekdaySection>
           {weekdays.map((weekday) => (
@@ -17,11 +23,12 @@ export default function Calender({ month, openBookingWindow }) {
           {month.emptyDays.amount.map((day) => (
             <span>{day}</span>
           ))}
-          {month.days.map((day) => (
+          {month.days.map((day, index) => (
             <>
               <DateStyled
                 isBooked={day.isBooked}
                 onClick={() => openBookingWindow(day, month)}
+                key={index}
               >
                 {day.day}
               </DateStyled>
@@ -65,3 +72,15 @@ const DaysSection = styled.section`
   border: 1px solid #032b45;
   row-gap: 2px;
 `
+const MonthStyled = styled.section`
+  margin: 12px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    margin: 0;
+    margin-left: 4px;
+  }
+`
+const SeahorseStyled = styled(GiSeahorse)``

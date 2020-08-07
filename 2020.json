@@ -2,7 +2,7 @@
   {
     "year": 2020,
     "month": 1,
-    "monthName": "january",
+    "monthName": "januar",
     "days": [
       { "day": 1, "isBooked": false, "bookedBy": "" },
       { "day": 2, "isBooked": false, "bookedBy": "" },
@@ -40,7 +40,7 @@
   {
     "year": 2020,
     "month": 2,
-    "monthName": "february",
+    "monthName": "februar",
     "days": [
       { "day": 1, "isBooked": false, "bookedBy": "" },
       { "day": 2, "isBooked": false, "bookedBy": "" },
@@ -76,7 +76,7 @@
   {
     "year": 2020,
     "month": 3,
-    "monthName": "march",
+    "monthName": "märz",
     "days": [
       { "day": 1, "isBooked": false, "bookedBy": "" },
       { "day": 2, "isBooked": false, "bookedBy": "" },
@@ -151,7 +151,7 @@
   {
     "year": 2020,
     "month": 5,
-    "monthName": "may",
+    "monthName": "mai",
     "days": [
       { "day": 1, "isBooked": false, "bookedBy": "" },
       { "day": 2, "isBooked": false, "bookedBy": "" },
@@ -189,7 +189,7 @@
   {
     "year": 2020,
     "month": 6,
-    "monthName": "june",
+    "monthName": "juni",
     "days": [
       { "day": 1, "isBooked": false, "bookedBy": "" },
       { "day": 2, "isBooked": false, "bookedBy": "" },
@@ -226,7 +226,7 @@
   {
     "year": 2020,
     "month": 7,
-    "monthName": "july",
+    "monthName": "juli",
     "days": [
       { "day": 1, "isBooked": false, "bookedBy": "" },
       { "day": 2, "isBooked": false, "bookedBy": "" },
@@ -339,7 +339,7 @@
   {
     "year": 2020,
     "month": 10,
-    "monthName": "october",
+    "monthName": "oktober",
     "days": [
       { "day": 1, "isBooked": false, "bookedBy": "" },
       { "day": 2, "isBooked": false, "bookedBy": "" },
@@ -414,7 +414,7 @@
   {
     "year": 2020,
     "month": 12,
-    "monthName": "december",
+    "monthName": "dezember",
     "days": [
       { "day": 1, "isBooked": false, "bookedBy": "" },
       { "day": 2, "isBooked": false, "bookedBy": "" },
