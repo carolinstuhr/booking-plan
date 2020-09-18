@@ -12,38 +12,47 @@ export default function ConfirmationWinow({
   return (
     <>
       {isConfirmationWindowOpen && (
-        <WindowSection>
-          <p>
-            Auf geht's nach Sylt vom {bookingPeriod[0].days[0].day}
-            {'. '}
-            {bookingPeriod[0].monthName} {bookingPeriod[0].year} bis zum{' '}
-            {
-              bookingPeriod[bookingPeriod.length - 1].days[
-                bookingPeriod[bookingPeriod.length - 1].days.length - 1
-              ].day
-            }
-            {'. '}
-            {bookingPeriod[bookingPeriod.length - 1].monthName}{' '}
-            {bookingPeriod[bookingPeriod.length - 1].year}
-          </p>
-          <GiJugglingSeal />
-          <FaUmbrellaBeach />
-          <GrAnchor />
-          <br />
-          <button onClick={() => setIsConfirmationWindowOpen(false)}>
-            Alles klar!
-          </button>
-        </WindowSection>
+        <OuterDiv>
+          <WindowSection>
+            <p>
+              Auf geht's nach Sylt vom {bookingPeriod[0].days[0].day}
+              {'. '}
+              {bookingPeriod[0].monthName} {bookingPeriod[0].year} bis zum{' '}
+              {
+                bookingPeriod[bookingPeriod.length - 1].days[
+                  bookingPeriod[bookingPeriod.length - 1].days.length - 1
+                ].day
+              }
+              {'. '}
+              {bookingPeriod[bookingPeriod.length - 1].monthName}{' '}
+              {bookingPeriod[bookingPeriod.length - 1].year}
+            </p>
+            <GiJugglingSeal />
+            <FaUmbrellaBeach />
+            <GrAnchor />
+            <br />
+            <button onClick={() => setIsConfirmationWindowOpen(false)}>
+              Alles klar!
+            </button>
+          </WindowSection>
+        </OuterDiv>
       )}
     </>
   )
 }
 
-const WindowSection = styled.section`
+const OuterDiv = styled.div`
   position: absolute;
-  text-align: center;
-  top: 180px;
-  left: 46px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  justify-content: center;
+  align-items: end;
+  width: 100vw;
+  height: 100vh;
+`
+
+const WindowSection = styled.section`
+  grid-row: 1;
   background: #f7f8f9;
   opacity: 1;
   padding: 8px;
