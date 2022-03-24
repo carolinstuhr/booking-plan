@@ -120,12 +120,15 @@ export default function BookingWindow({
 const BookingSection = styled.section`
   position: absolute;
   top: 180px;
-  left: 74px;
+  left: 0;
+  right: 0;
   background: #f7f8f9;
   opacity: 1;
   padding: 20px;
   z-index: 2;
   border-radius: 4px;
+  margin: auto;
+  width: fit-content;
   label {
     display: block;
     margin: 8px;
